@@ -44,19 +44,18 @@ class Solution:
         res = max(nums)
         cur_max = cur_min = 1
 
-        # val is the running product of the subarray so far
-        val = 1
         for num in nums:
             if num == 0:
                 # reset all the vars to 1 (ignoring the 0)
-                val = cur_max = cur_min = 1
-            else:
-                val *= num
-                # update the min and max if necessary
-                cur_max = max(cur_max, val)
-                cur_min = min(cur_min, val)
+                cur_max = cur_min = 1
+                continue
 
-                # update res if necessary
-                res = max(res, cur_max)
+            temp = cur_max
+            # update the min and max if necessary
+            cur_max = max(cur_max * num, cur_min * num, num)
+            cur_min = min(temp * num, cur_min * num, num)
+
+            # update res if necessary
+            res = max(res, cur_max)
 
         return res
